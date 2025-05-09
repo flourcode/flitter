@@ -12,7 +12,7 @@
       --primary-light-color: #64B5F6; /* Blue 300 */
       --primary-dark-color: #0D47A1; /* Blue 900 */
       --accent-color: #FFC107; /* Amber 500 */
-      --background-color: #f5f5f5; /* Grey 100 - Softer than original */
+      --background-color: #f5f5f5; /* Grey 100 */
       --card-background-color: #ffffff;
       --text-color-primary: #212121; /* Grey 900 */
       --text-color-secondary: #757575; /* Grey 600 */
@@ -25,10 +25,11 @@
       --shadow-dp8: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
 
       /* Typography */
-      --font-family: 'Roboto', 'Segoe UI', sans-serif; /* Roboto is a Material Design standard */
-      --font-size-base: 16px; /* Increased base font size for readability */
+      --font-family: 'Roboto', 'Segoe UI', sans-serif;
+      --font-size-base: 16px;
       --font-size-large: 1.25rem;
-      --font-size-xlarge: 1.75rem;
+      --font-size-xlarge: 1.75rem; /* Header main title size */
+      --font-size-small: 0.875rem; /* For the new sub-header/credit line */
     }
 
     body {
@@ -43,40 +44,62 @@
     header {
       background: var(--primary-color);
       color: var(--text-color-on-primary);
-      padding: 1.5rem 2rem; /* Increased padding */
-      font-size: var(--font-size-xlarge); /* Larger font for header */
-      font-weight: 500; /* Material Design medium weight */
+      /* Adjusted bottom padding to make space for the credit line */
+      padding: 1.5rem 2rem 1rem 2rem;
       text-align: center;
       box-shadow: var(--shadow-dp4);
       position: sticky;
       top: 0;
       z-index: 1000;
-      display: flex; /* For icon alignment */
-      align-items: center;
-      justify-content: center;
     }
 
-    header .material-icons { /* Style for icon in header */
+    /* New wrapper for the main title part to ensure flex alignment */
+    .header-main-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-xlarge);
+      font-weight: 500;
+      /* Add some space below the main title before the credit line */
+      margin-bottom: 0.5rem;
+    }
+
+    .header-main-title .material-icons {
       font-size: 2.5rem; /* Larger icon */
       margin-right: 0.75rem;
     }
 
+    /* New style for the credit line */
+    .header-credit {
+      font-size: var(--font-size-small);
+      font-weight: 300; /* Lighter font weight */
+      color: rgba(255, 255, 255, 0.85); /* Slightly transparent white for subtlety */
+      line-height: 1.2; /* Adjust if needed */
+    }
+
+    .header-credit .heart {
+      color: #FFB6C1; /* LightPink - or choose another color like var(--accent-color) or keep default */
+      /* You can adjust font-size if you want the heart slightly bigger/smaller than text */
+      /* font-size: 1.1em; */
+    }
+
+
     #video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Slightly larger min card width */
-      gap: 2rem; /* Increased gap */
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
       padding: 2rem;
-      max-width: 1600px; /* Allow wider content on large screens */
+      max-width: 1600px;
       margin: auto;
     }
 
     .video-card {
       background: var(--card-background-color);
-      border-radius: 8px; /* Consistent with Material card rounding */
+      border-radius: 8px;
       box-shadow: var(--shadow-dp2);
       overflow: hidden;
-      transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1); /* Material Design animation curve */
-      display: flex; /* To help with potential content inside */
+      transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+      display: flex;
       flex-direction: column;
     }
 
@@ -86,12 +109,11 @@
 
     .video-card iframe {
       width: 100%;
-      height: 220px; /* Increased height for better viewing */
+      height: 220px;
       border: none;
       display: block; /* Remove extra space below iframe */
     }
 
-    /* Added placeholder for video title (optional but good for context) */
     .video-title {
         padding: 0.75rem 1rem;
         font-size: var(--font-size-large);
@@ -105,15 +127,14 @@
     }
 
 
-    .loading-container { /* Centered loading spinner */
+    .loading-container {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 3rem 1rem;
-      min-height: 100px; /* Ensure it's visible */
+      min-height: 100px;
     }
 
-    /* Simple CSS Spinner */
     .spinner {
       border: 5px solid var(--primary-light-color);
       border-top: 5px solid var(--primary-dark-color);
@@ -135,7 +156,6 @@
         font-size: var(--font-size-large);
     }
 
-    /* Accessibility: Focus states for keyboard navigation */
     .video-card a:focus, .video-card iframe:focus {
         outline: 3px solid var(--accent-color);
         outline-offset: 2px;
@@ -145,7 +165,12 @@
 </head>
 <body>
   <header>
-	<h1>🐦 Flitter</h1>
+    <div class="header-main-title">
+      <h1>🐦 Flitter</h1>
+    </div>
+    <div class="header-credit">
+      Made with <span class="heart">&hearts;</span> for Aunt Patti
+    </div>
   </header>
 
   <div id="video-grid">
@@ -157,8 +182,8 @@
   <div id="status-message" class="status-message" style="display: none;"></div>
 
   <script>
-    // IMPORTANT: REPLACE 'YOUR_YOUTUBE_API_KEY' with your actual YouTube Data API v3 key
-    const apiKey = 'AIzaSyDQWLylWmcVw-F48vpFJMwYNq-2o09kzF4'; // Original key from file
+    // Ensure YOUR_YOUTUBE_API_KEY is replaced with your actual, restricted API key
+    const apiKey = 'YOUR_YOUTUBE_API_KEY'; // <<< REPLACE THIS WITH YOUR KEY
     let nextPageToken = '';
     const videoGrid = document.getElementById('video-grid');
     const loadingIndicator = document.getElementById('loading-indicator');
@@ -169,13 +194,11 @@
     async function loadBirdVideos() {
       if (isLoading) return;
       isLoading = true;
-      loadingIndicator.style.display = 'flex'; // Use flex for centered spinner
+      loadingIndicator.style.display = 'flex';
       statusMessage.style.display = 'none';
 
-      // More specific search query, focusing on live feeds or calm backyard bird videos
-      // Consider terms like "live bird cam backyard", "peaceful bird watching", "garden birds sounds"
       const searchQuery = 'calm backyard bird watching live OR relaxing garden birds';
-      const maxResults = 6; // Reduced for less overwhelming initial load, more frequent smaller loads
+      const maxResults = 6;
 
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodeURIComponent(searchQuery)}&videoEmbeddable=true&key=${apiKey}&pageToken=${nextPageToken}`;
 
@@ -183,27 +206,31 @@
         const res = await fetch(url);
         if (!res.ok) {
           const errorData = await res.json();
-          throw new Error(`YouTube API Error: ${errorData.error.message || res.status}`);
+          let detailedErrorMessage = res.statusText; // Fallback
+          // Try to get more specific error message from Google's response
+          if (errorData && errorData.error && errorData.error.errors && errorData.error.errors[0] && errorData.error.errors[0].message) {
+            detailedErrorMessage = errorData.error.errors[0].message;
+          } else if (errorData && errorData.error && errorData.error.message) {
+            detailedErrorMessage = errorData.error.message;
+          }
+          throw new Error(`YouTube API Error: ${detailedErrorMessage}`);
         }
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
-          nextPageToken = data.nextPageToken || ''; // Ensure nextPageToken is updated or cleared
+          nextPageToken = data.nextPageToken || '';
           data.items.forEach(item => {
-            if (item.id && item.id.videoId) { // Ensure videoId exists
+            if (item.id && item.id.videoId) {
                 const videoId = item.id.videoId;
-                const videoTitle = item.snippet.title; // Get video title
+                const videoTitle = item.snippet.title;
 
                 const card = document.createElement('div');
                 card.className = 'video-card';
-                card.setAttribute('aria-label', `Video: ${videoTitle}`); // Accessibility
+                card.setAttribute('aria-label', `Video: ${videoTitle}`);
 
-                // Using googleusercontent.com for embedding to avoid potential youtube.com restrictions in some contexts
-                // The '0' in the path might be a placeholder or specific to an internal system.
-                // If direct YouTube embedding is preferred and works, use: `https://www.youtube.com/embed/${videoId}`
                 card.innerHTML = `
                     <iframe
-                    src="https://www.youtube.com/embed/${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
+                    src="https://www.youtube.com/embed/$${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
                     title="${videoTitle}"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
@@ -214,10 +241,10 @@
             }
           });
         } else {
-          if (!initialLoadDone) { // If no videos on first load
+          if (!initialLoadDone) {
             statusMessage.innerText = 'No bird videos found at the moment. Please try again later.';
             statusMessage.style.display = 'block';
-          } else if (!nextPageToken && initialLoadDone) { // No more videos to load
+          } else if (!nextPageToken && initialLoadDone) {
              statusMessage.innerText = "You've reached the end of the bird videos!";
              statusMessage.style.display = 'block';
           }
@@ -226,7 +253,8 @@
 
       } catch (e) {
         console.error('Error loading videos:', e);
-        statusMessage.innerText = 'Oops! We could not load bird videos. Please check your connection or API key.';
+        // Display a more user-friendly error that includes Google's specific message if available
+        statusMessage.innerText = `Oops! We could not load bird videos. ${e.message.includes('API Error') ? e.message : 'Please check your connection or API key.'}`;
         statusMessage.style.display = 'block';
       } finally {
         loadingIndicator.style.display = 'none';
@@ -239,18 +267,10 @@
 
     // Infinite scroll listener
     window.addEventListener('scroll', () => {
-      // Load more when near the bottom, and if there's a next page token, and not currently loading
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800 && nextPageToken && !isLoading) {
         loadBirdVideos();
       }
     });
-
-    // Optional: Add a button to manually load more if infinite scroll is not preferred
-    // const loadMoreButton = document.createElement('button');
-    // loadMoreButton.textContent = 'Load More Bird Videos';
-    // loadMoreButton.onclick = loadBirdVideos;
-    // loadMoreButton.style.cssText = 'display:block; margin: 2rem auto; padding: 1rem 1.5rem; font-size: 1.2rem; background-color: var(--accent-color); color: var(--text-color-primary); border:none; border-radius: 4px; box-shadow: var(--shadow-dp2); cursor:pointer;';
-    // document.body.appendChild(loadMoreButton);
 
   </script>
 </body>
