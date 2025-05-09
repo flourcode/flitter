@@ -128,17 +128,31 @@
     }
 
     .video-title {
-      padding: 0.75rem 1rem;
-      font-size: var(--font-size-medium);
-      font-weight: 500;
-      color: var(--text-color-primary);
-      border-top: 1px solid var(--divider-color);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      min-height: 2.5em;
+        padding: 0.75rem 1rem;
+        font-size: var(--font-size-large); /* Should be 1.25rem */
+        font-weight: 500;
+        color: var(--text-color-primary);
+        border-top: 1px solid var(--divider-color);
+        
+        /* Allow text to wrap, but limit to 2 lines with ellipsis */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Show a maximum of 2 lines */
+        -webkit-box-orient: vertical;
+        
+        /* Adjust line-height and min-height for two lines */
+        line-height: 1.3; /* A reasonable line-height for titles */
+        /* Calculate min-height: (lines * line-height * font-size) + padding
+           Here, it's roughly for 2 lines of text.
+           2 lines * 1.3 line-height = 2.6em of text height.
+           Padding is 0.75rem top & 0.75rem bottom.
+           If font-size is 1.25rem, then 0.75rem is 0.6em (0.75/1.25). So 1.2em total for padding.
+           min-height would be 2.6em (text) + 1.2em (padding) = 3.8em
+        */
+        min-height: 3.8em; /* Ensures space for two lines and padding */
+        /* You can also set a max-height if you want to be very strict,
+           but -webkit-line-clamp usually handles the visual height. */
     }
 
     .loading-container {
