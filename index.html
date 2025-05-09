@@ -256,7 +256,7 @@
       statusMessage.style.display = 'none';
       loadMoreBtn.style.display = 'none';
 
-      const searchQuery = 'calm backyard bird watching live OR relaxing garden birds';
+      const searchQuery = '(live bird cam OR backyard bird watching OR peaceful garden birds) ("no ads" OR "ad free" OR "uninterrupted")';
       const maxResults = 6;
 
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodeURIComponent(searchQuery)}&videoEmbeddable=true&key=${apiKey}&pageToken=${nextPageToken}`;
