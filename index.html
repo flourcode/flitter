@@ -193,11 +193,13 @@
     async function loadBirdVideos() {
       if (isLoading) return;
       isLoading = true;
-      loadingIndicator.style.display = 'flex';
+      loadingIndicator.style.display = 'flex'; // Use flex for centered spinner
       statusMessage.style.display = 'none';
 
+      // More specific search query, focusing on live feeds or calm backyard bird videos
+      // Consider terms like "live bird cam backyard", "peaceful bird watching", "garden birds sounds"
       const searchQuery = 'calm backyard bird watching live OR relaxing garden birds';
-      const maxResults = 6;
+      const maxResults = 6; // Reduced for less overwhelming initial load, more frequent smaller loads
 
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodeURIComponent(searchQuery)}&videoEmbeddable=true&key=${apiKey}&pageToken=${nextPageToken}`;
 
@@ -205,31 +207,27 @@
         const res = await fetch(url);
         if (!res.ok) {
           const errorData = await res.json();
-          let detailedErrorMessage = res.statusText; // Fallback
-          // Try to get more specific error message from Google's response
-          if (errorData && errorData.error && errorData.error.errors && errorData.error.errors[0] && errorData.error.errors[0].message) {
-            detailedErrorMessage = errorData.error.errors[0].message;
-          } else if (errorData && errorData.error && errorData.error.message) {
-            detailedErrorMessage = errorData.error.message;
-          }
-          throw new Error(`YouTube API Error: ${detailedErrorMessage}`);
+          throw new Error(`YouTube API Error: ${errorData.error.message || res.status}`);
         }
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
-          nextPageToken = data.nextPageToken || '';
+          nextPageToken = data.nextPageToken || ''; // Ensure nextPageToken is updated or cleared
           data.items.forEach(item => {
-            if (item.id && item.id.videoId) {
+            if (item.id && item.id.videoId) { // Ensure videoId exists
                 const videoId = item.id.videoId;
-                const videoTitle = item.snippet.title;
+                const videoTitle = item.snippet.title; // Get video title
 
                 const card = document.createElement('div');
                 card.className = 'video-card';
-                card.setAttribute('aria-label', `Video: ${videoTitle}`);
+                card.setAttribute('aria-label', `Video: ${videoTitle}`); // Accessibility
 
+                // Using googleusercontent.com for embedding to avoid potential youtube.com restrictions in some contexts
+                // The '0' in the path might be a placeholder or specific to an internal system.
+                // If direct YouTube embedding is preferred and works, use: `https://www.youtube.com/embed/${videoId}`
                 card.innerHTML = `
                     <iframe
-                    src="https://www.youtube.com/embed/$${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
                     title="${videoTitle}"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen
@@ -240,10 +238,10 @@
             }
           });
         } else {
-          if (!initialLoadDone) {
+          if (!initialLoadDone) { // If no videos on first load
             statusMessage.innerText = 'No bird videos found at the moment. Please try again later.';
             statusMessage.style.display = 'block';
-          } else if (!nextPageToken && initialLoadDone) {
+          } else if (!nextPageToken && initialLoadDone) { // No more videos to load
              statusMessage.innerText = "You've reached the end of the bird videos!";
              statusMessage.style.display = 'block';
           }
@@ -252,8 +250,7 @@
 
       } catch (e) {
         console.error('Error loading videos:', e);
-        // Display a more user-friendly error that includes Google's specific message if available
-        statusMessage.innerText = `Oops! We could not load bird videos. ${e.message.includes('API Error') ? e.message : 'Please check your connection or API key.'}`;
+        statusMessage.innerText = 'Oops! We could not load bird videos. Please check your connection or API key.';
         statusMessage.style.display = 'block';
       } finally {
         loadingIndicator.style.display = 'none';
@@ -266,10 +263,18 @@
 
     // Infinite scroll listener
     window.addEventListener('scroll', () => {
+      // Load more when near the bottom, and if there's a next page token, and not currently loading
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800 && nextPageToken && !isLoading) {
         loadBirdVideos();
       }
     });
+
+    // Optional: Add a button to manually load more if infinite scroll is not preferred
+    // const loadMoreButton = document.createElement('button');
+    // loadMoreButton.textContent = 'Load More Bird Videos';
+    // loadMoreButton.onclick = loadBirdVideos;
+    // loadMoreButton.style.cssText = 'display:block; margin: 2rem auto; padding: 1rem 1.5rem; font-size: 1.2rem; background-color: var(--accent-color); color: var(--text-color-primary); border:none; border-radius: 4px; box-shadow: var(--shadow-dp2); cursor:pointer;';
+    // document.body.appendChild(loadMoreButton);
 
   </script>
 </body>
