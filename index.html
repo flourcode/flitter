@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flitter - for Bird Lovers</title>
+  <title>Flitter - Mark and Andrea's Animal Cams</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,6 +18,8 @@
     --text-color-primary: #212121; 
     --text-color-secondary: #757575; 
     --divider-color: #BDBDBD; 
+    --footer-bg-color: #e0e0e0;
+    --heart-color: #e91e63;
 
     /* Shadows */
     --shadow-dp2: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
@@ -28,8 +30,15 @@
     --font-family: 'Roboto', 'Segoe UI', sans-serif;
     --font-size-base: 16px;
     --font-size-large: 1.25rem;
-    --font-size-xlarge: 1.75rem;
+    --font-size-medium: 1rem;
     --font-size-small: 0.875rem;
+    --font-size-xsmall: 0.75rem;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
   body {
@@ -39,41 +48,79 @@
     color: var(--text-color-primary);
     font-size: var(--font-size-base);
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
   header {
-    background: #ffffff; /* White background */
-    box-shadow: none; /* No shadow */
+    background: #ffffff; 
+    box-shadow: var(--shadow-dp2);
     position: sticky;
     top: 0;
     z-index: 1000;
     display: flex;
-    align-items: center;    /* Vertical centering */
-    justify-content: center; /* Horizontal centering */
-    padding: 0.5rem 1rem; /* Padding around the logo area */
-    min-height: 100px;    /* Minimum height of 100px */
+    align-items: center;    
+    justify-content: center; 
+    padding: 0.75rem; 
+    min-height: 80px;    
   }
 
-  .header-logo {
-    max-height: 100px;   /* Max height for logo within the 100px header. Adjust as needed. */
-    width: auto;        /* Maintain aspect ratio */
-    max-width: 80%;     /* Prevents very wide logos from taking too much space */
-    object-fit: contain; 
+  .header-content-wrapper { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1600px;
   }
 
-  .container { 
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-emoji {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .logo-text {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-dark-color);
+    line-height: 1;
+    letter-spacing: 0.03em;
+  }
+
+  .header-subtitle { 
+    font-size: var(--font-size-xsmall);
+    color: var(--text-color-secondary);
+    font-weight: 400;
+    text-align: center;
+    margin-top: 0.3rem;
+  }
+
+  /* Main content area should grow to push footer down */
+  main {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 1rem;
+    width: 100%;
   }
 
   #video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1600px;
-    margin: auto;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+    width: 100%;
   }
 
   .video-card {
@@ -94,14 +141,14 @@
 
   .video-card iframe {
     width: 100%;
-    height: 220px;
+    aspect-ratio: 16/9;
     border: none;
     display: block;
   }
 
   .video-title {
     padding: 0.75rem 1rem;
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-medium);
     font-weight: 500;
     color: var(--text-color-primary);
     border-top: 1px solid var(--divider-color);
@@ -111,23 +158,23 @@
     -webkit-line-clamp: 2; 
     -webkit-box-orient: vertical;
     line-height: 1.3; 
-    min-height: 3.8em; 
+    min-height: 3.5em; 
   }
 
   .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3rem 1rem;
-    min-height: 100px;
+    padding: 2rem 1rem;
+    min-height: 80px;
   }
 
   .spinner {
-    border: 5px solid rgba(100, 181, 246, 0.3); 
-    border-top: 5px solid var(--primary-dark-color); 
+    border: 4px solid rgba(100, 181, 246, 0.3); 
+    border-top: 4px solid var(--primary-dark-color); 
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite;
   }
 
@@ -138,121 +185,225 @@
 
   .status-message {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     color: var(--text-color-secondary);
-    font-size: var(--font-size-large);
-  }
-
-  .video-card a:focus, .video-card iframe:focus { /* Consider :focus-visible for keyboard users */
-    outline: 3px solid var(--accent-color);
-    outline-offset: 2px;
+    font-size: var(--font-size-medium);
   }
 
   .load-more-btn {
     display: block;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     padding: 0.75rem 1.5rem;
     background-color: var(--accent-color);
     color: var(--text-color-primary);
     border: none;
     border-radius: 4px;
     font-family: var(--font-family);
-    font-size: 1rem;
+    font-size: var(--font-size-medium);
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s; 
     box-shadow: var(--shadow-dp2);
   }
 
-  .load-more-btn:hover {
+  .load-more-btn:hover, .load-more-btn:focus-visible {
     background-color: var(--accent-hover);
     box-shadow: var(--shadow-dp4); 
+    outline: 2px solid var(--primary-dark-color); 
+    outline-offset: 2px;
+  }
+
+  /* Footer Styles */
+  footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+    background-color: var(--footer-bg-color);
+    border-top: 1px solid var(--divider-color);
+    font-size: var(--font-size-small);
+    color: var(--text-color-secondary);
+  }
+
+  .footer-heart {
+    color: var(--heart-color);
+    font-size: 1.1em;
+  }
+
+  .footer-link {
+    color: var(--primary-dark-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover, .footer-link:focus-visible {
+    text-decoration: underline;
+    color: var(--primary-light-color);
+    outline: none;
   }
 
   /* Responsive adjustments */
-  @media (max-width: 768px) {
-    header { 
-      padding: 0.4rem 0.75rem; 
-      /* min-height: 100px; /* Ensured by the base style */
-    }
-    .header-logo { 
-      max-height: 50px;   
-      max-width: 70%;     
-    }
+  @media (max-width: 992px) {
     #video-grid {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      padding: 1rem;
-      gap: 1.5rem;
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    header { 
+      padding: 0.5rem; 
+      min-height: 70px; 
+    }
+    
+    .logo-emoji {
+      font-size: 2.5rem;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+    }
+    
+    .container {
+      padding: 0.75rem;
+    }
+    
+    #video-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      padding: 0.75rem 0;
+    }
+    
+    .video-title {
+      font-size: 0.95rem;
+      padding: 0.6rem 0.8rem;
+    }
+    
+    .load-more-btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
     }
   }
 
   @media (max-width: 480px) {
     header { 
-      padding: 0.25rem 0.5rem; 
-      /* min-height: 100px; /* Ensured by the base style */
+      min-height: 65px; 
+      padding: 0.5rem 0.25rem;
     }
-    .header-logo { 
-      max-height: 45px;  
-      max-width: 65%;     
+    
+    .logo-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 0.1rem;
     }
+    
+    .logo-text {
+      font-size: 1.3rem;
+    }
+    
+    .header-subtitle {
+      font-size: 0.7rem;
+      margin-top: 0.2rem;
+    }
+    
+    .container {
+      padding: 0.5rem;
+    }
+    
     #video-grid {
-      grid-template-columns: 1fr; 
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .loading-container {
+      padding: 1.5rem 0.5rem;
+    }
+    
+    .status-message {
+      padding: 1rem 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .load-more-btn {
+      margin: 1rem auto;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+    
+    footer {
+      padding: 1rem 0.5rem;
+      font-size: 0.8rem;
+      margin-top: 1.5rem;
     }
   }
 </style>
 </head>
 <body>
   <header>
-    <img src="flitter_logo.png" alt="Flitter App Logo" class="header-logo">
+    <div class="header-content-wrapper"> 
+      <div class="logo-container">
+        <div class="logo-emoji">🐦</div>
+        <div class="logo-text">Flitter.</div>
+      </div>
+      <div class="header-subtitle">Mark and Andrea's Favorite Animal Cams</div>
+    </div>
   </header>
 
-  <div id="video-grid">
-    </div>
+  <main>
+    <div class="container">
+      <div id="video-grid"></div>
 
-  <div id="loading-indicator" class="loading-container" style="display: none;">
-    <div class="spinner"></div>
-  </div>
-  
-  <div id="status-message" class="status-message" style="display: none;"></div>
-  
-  <button id="load-more-btn" class="load-more-btn" style="display: none;">
-    Load More Bird Videos
-  </button>
+      <div id="loading-indicator" class="loading-container" style="display: none;">
+        <div class="spinner"></div>
+      </div>
+      
+      <div id="status-message" class="status-message" style="display: none;"></div>
+      
+      <button id="load-more-btn" class="load-more-btn" style="display: none;">
+        Load More Videos
+      </button>
+    </div>
+  </main>
+
+  <footer>
+    Made with <span class="footer-heart">&hearts;</span> by 
+    <a href="mailto:markflournoy@gmail.com" class="footer-link">Mark</a> &amp; 
+    <a href="mailto:andreaflournoy@gmail.com" class="footer-link">Andrea</a>
+  </footer>
 
   <script>
-    // --- START OF MANUAL CURATION VIDEO LIST ---
-    // To add more videos, add a new object like: { videoId: 'NEW_VIDEO_ID', title: 'Title for New Video' },
-    // Remember to put a comma after the previous object.
-    const curatedBirdVideos = [
-      { videoId: 'x10vL6_47Dw', title: 'Cornell Lab FeederWatch Cam at Sapsucker Woods' },
+    // Video Data
+    const curatedAnimalCams = [ 
       { videoId: 'B4-L2nfGcuE', title: 'Big Bear Bald Eagle Live Nest' },
+      { videoId: 'x10vL6_47Dw', title: 'Cornell Lab FeederWatch Cam at Sapsucker Woods' },
       { videoId: 'VfFfS64rtZE', title: 'Panama Fruit Feeder Cam at Canopy Lodge' },
       { videoId: 'FSu5-idfzMw', title: 'Barred Owl Live Cam—Outside View' },
       { videoId: 'afsaYKQ3vac', title: 'Cornell Red-tailed Hawks Live Cam' },
       { videoId: '3szkFHfr6sA', title: 'No Birds but Pandas!' },
-      { videoId: 'Gq7wGTTJGTk', title: 'Colorful Garden Birds - Relaxing Nature Video' },
-      { videoId: 'nPhVO51k2Xw', title: 'Morning Bird Song - Peaceful Start' },
-      { videoId: 'LXk3w4L6a2U', title: 'Common Feeder Birds of North America' },
-      { videoId: '2jXOMYG04yI', title: '4K Virtual Birdwatching - Forest Sounds' },
-      { videoId: '_LdYkS62KXM', title: 'Gentle Bird Feeder Visitors - Calming' },
-      { videoId: 'h1qjV3t5nVg', title: 'Backyard Bird Oasis - Many Species' },
-      // Add more curated videos here if you like, e.g.:
-      // { videoId: 'VIDEO_ID_13', title: 'Another Amazing Bird Video' },
-      // { videoId: 'VIDEO_ID_14', title: 'Even More Birds!' },
+      { videoId: 'jaGPSAZ_uow', title: 'Arizona Backyard Feeder' },
+      { videoId: 'QhxCVRJrVHs', title: 'Ohio Backyard Wildlife' },
+      { videoId: 'xKMEl0wHLfw', title: 'Makov Animal Rescue in Czech Republic' },
+      { videoId: 'NqOmHpwMUxs', title: 'Otter Cam at the Seattle Aquarium' },
+      { videoId: 'gfe7xNLFY50', title: 'Penguin Cam - Monterey Bay Aquarium' },
+      { videoId: 'w3LjpFhySTg', title: 'Kelp Forest Cam - Monterey Bay Aquarium' },
+      { videoId: 'kw8DKdNVD_Q', title: 'Monterey Bay Cam - Monterey Bay Aquarium' },
+      { videoId: 'gswNWtJlUco', title: 'Jelly Cam - Monterey Bay Aquarium' },
+      { videoId: 'tEtg5Kg3voQ', title: 'Shark Cam - Monterey Bay Aquarium' },
     ];
-    // --- END OF MANUAL CURATION VIDEO LIST ---
 
+    // DOM Elements
     const videoGrid = document.getElementById('video-grid');
     const loadingIndicator = document.getElementById('loading-indicator');
     const statusMessage = document.getElementById('status-message');
     const loadMoreBtn = document.getElementById('load-more-btn');
     
+    // Variables
     let isLoading = false;
-    const videosPerPage = 6; // How many videos to load at a time
-    let videosLoadedCount = 0; // How many videos from the curated list are currently shown
+    const videosPerPage = 6; 
+    let videosLoadedCount = 0; 
 
+    // Display videos function
     function displayVideos(videosToDisplay) {
       if (videosToDisplay.length === 0 && videosLoadedCount === 0) {
-        statusMessage.innerText = 'No videos in the curated list.';
+        statusMessage.innerText = 'No videos in the curated list yet.'; 
         statusMessage.style.display = 'block';
         return;
       }
@@ -262,7 +413,6 @@
         card.className = 'video-card';
         card.setAttribute('aria-label', `Video: ${videoData.title}`);
 
-        // Using youtube-nocookie.com for privacy-enhanced mode
         card.innerHTML = `
           <iframe
             src="https://www.youtube-nocookie.com/embed/${videoData.videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
@@ -277,23 +427,23 @@
 
       videosLoadedCount += videosToDisplay.length;
 
-      // Show/hide "Load More" button
-      if (videosLoadedCount < curatedBirdVideos.length) {
+      if (videosLoadedCount < curatedAnimalCams.length) {
         loadMoreBtn.style.display = 'block';
       } else {
         loadMoreBtn.style.display = 'none';
-        if (videosLoadedCount > 0) { // Only show "end" message if some videos were loaded
-            statusMessage.innerText = "You've seen all the curated bird videos!";
+        if (videosLoadedCount > 0) { 
+            statusMessage.innerText = "You've seen all the favorite animal cams!"; 
             statusMessage.style.display = 'block';
         }
       }
     }
 
-    async function loadBirdVideos() {
+    // Load videos function
+    async function loadVideos() { 
       if (isLoading) return;
-      if (videosLoadedCount >= curatedBirdVideos.length && videosLoadedCount > 0) { // All videos already loaded
+      if (videosLoadedCount >= curatedAnimalCams.length && videosLoadedCount > 0) {
         loadMoreBtn.style.display = 'none';
-        statusMessage.innerText = "You've seen all the curated bird videos!";
+        statusMessage.innerText = "You've seen all the favorite animal cams!"; 
         statusMessage.style.display = 'block';
         return;
       }
@@ -301,21 +451,21 @@
       isLoading = true;
       loadingIndicator.style.display = 'flex';
       statusMessage.style.display = 'none'; 
-      loadMoreBtn.style.display = 'none'; // Hide button while loading
+      loadMoreBtn.style.display = 'none'; 
 
-      // Simulate a small delay as if an API call was made
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Simulate network delay (for demo purposes)
+      await new Promise(resolve => setTimeout(resolve, 300)); 
 
       try {
         const startIndex = videosLoadedCount;
         const endIndex = startIndex + videosPerPage;
-        const videosToDisplayThisBatch = curatedBirdVideos.slice(startIndex, endIndex);
+        const videosToDisplayThisBatch = curatedAnimalCams.slice(startIndex, endIndex);
         
         displayVideos(videosToDisplayThisBatch);
 
       } catch (e) {
         console.error('Error displaying curated videos:', e);
-        statusMessage.innerText = 'Oops! Could not display the bird videos.';
+        statusMessage.innerText = 'Oops! Could not display the videos.'; 
         statusMessage.style.display = 'block';
       } finally {
         loadingIndicator.style.display = 'none';
@@ -324,17 +474,20 @@
     }
 
     // Initial load
-    loadBirdVideos();
+    loadVideos();
 
     // Load more button click event
-    loadMoreBtn.addEventListener('click', loadBirdVideos);
+    loadMoreBtn.addEventListener('click', loadVideos);
 
-    // Infinite scroll listener
+    // Infinite scroll
     window.addEventListener('scroll', () => {
-      if (isLoading || videosLoadedCount >= curatedBirdVideos.length) return; // Don't load if already loading or all loaded
+      if (isLoading || videosLoadedCount >= curatedAnimalCams.length) return;
 
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 600) {
-        loadBirdVideos();
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.body.offsetHeight - 500;
+      
+      if (scrollPosition >= threshold) {
+        loadVideos();
       }
     });
   </script>
