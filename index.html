@@ -4,14 +4,16 @@
   <meta charset="UTF-8">
   <title>Birdwatching with Auntie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     :root {
-      /* Material Design Inspired Color Palette (Blue) */
+      /* Enhanced Color Palette (Based on original blue theme) */
       --primary-color: #1976D2; /* Blue 700 */
       --primary-light-color: #64B5F6; /* Blue 300 */
       --primary-dark-color: #0D47A1; /* Blue 900 */
       --accent-color: #FFC107; /* Amber 500 */
+      --accent-hover: #FFB300; /* Amber 600 */
       --background-color: #f5f5f5; /* Grey 100 */
       --card-background-color: #ffffff;
       --text-color-primary: #212121; /* Grey 900 */
@@ -19,7 +21,7 @@
       --text-color-on-primary: #ffffff;
       --divider-color: #BDBDBD; /* Grey 400 */
 
-      /* Material Design Shadows */
+      /* Improved Shadows */
       --shadow-dp2: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
       --shadow-dp4: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
       --shadow-dp8: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
@@ -28,8 +30,8 @@
       --font-family: 'Roboto', 'Segoe UI', sans-serif;
       --font-size-base: 16px;
       --font-size-large: 1.25rem;
-      --font-size-xlarge: 1.75rem; /* Header main title size */
-      --font-size-small: 0.875rem; /* For the new sub-header/credit line */
+      --font-size-xlarge: 1.75rem;
+      --font-size-small: 0.875rem;
     }
 
     body {
@@ -43,8 +45,8 @@
 
     header {
       background: var(--primary-color);
+      background-image: linear-gradient(to right, var(--primary-color), var(--primary-dark-color));
       color: var(--text-color-on-primary);
-      /* Adjusted bottom padding to make space for the credit line */
       padding: 1.5rem 2rem 1rem 2rem;
       text-align: center;
       box-shadow: var(--shadow-dp4);
@@ -53,36 +55,45 @@
       z-index: 1000;
     }
 
-    /* New wrapper for the main title part to ensure flex alignment */
     .header-main-title {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: var(--font-size-xlarge);
       font-weight: 500;
-      /* Add some space below the main title before the credit line */
       margin-bottom: 0.5rem;
     }
 
-    .header-main-title .material-icons {
-      font-size: 2.5rem; /* Larger icon */
-      margin-right: 0.75rem;
+    .header-main-title h1 {
+      margin: 0;
+      display: flex;
+      align-items: center;
     }
 
-    /* New style for the credit line */
     .header-credit {
       font-size: var(--font-size-small);
-      font-weight: 300; /* Lighter font weight */
-      color: rgba(255, 255, 255, 0.85); /* Slightly transparent white for subtlety */
-      line-height: 1.2; /* Adjust if needed */
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.2;
     }
 
     .header-credit .heart {
-      color: #FFB6C1; /* LightPink - or choose another color like var(--accent-color) or keep default */
-      /* You can adjust font-size if you want the heart slightly bigger/smaller than text */
-      /* font-size: 1.1em; */
+      color: #FFB6C1;
+      display: inline-block;
+      animation: pulse 1.5s infinite;
     }
 
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
 
     #video-grid {
       display: grid;
@@ -98,34 +109,37 @@
       border-radius: 8px;
       box-shadow: var(--shadow-dp2);
       overflow: hidden;
-      transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
       display: flex;
       flex-direction: column;
+      height: 100%;
     }
 
     .video-card:hover {
       box-shadow: var(--shadow-dp8);
+      transform: translateY(-5px);
     }
 
     .video-card iframe {
       width: 100%;
       height: 220px;
       border: none;
-      display: block; /* Remove extra space below iframe */
+      display: block;
     }
 
     .video-title {
-        padding: 0.75rem 1rem;
-        font-size: var(--font-size-large);
-        font-weight: 500;
-        color: var(--text-color-primary);
-        border-top: 1px solid var(--divider-color);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-height: 2.4em; /* Ensure space even if title is short or missing */
+      padding: 0.75rem 1rem;
+      font-size: var(--font-size-large);
+      font-weight: 500;
+      color: var(--text-color-primary);
+      border-top: 1px solid var(--divider-color);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      min-height: 2.5em;
     }
-
 
     .loading-container {
       display: flex;
@@ -136,8 +150,8 @@
     }
 
     .spinner {
-      border: 5px solid var(--primary-light-color);
-      border-top: 5px solid var(--primary-dark-color);
+      border: 5px solid rgba(100, 181, 246, 0.3);
+      border-top: 5px solid var(--primary-color);
       border-radius: 50%;
       width: 50px;
       height: 50px;
@@ -150,17 +164,55 @@
     }
 
     .status-message {
-        text-align: center;
-        padding: 2rem;
-        color: var(--text-color-secondary);
-        font-size: var(--font-size-large);
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-color-secondary);
+      font-size: var(--font-size-large);
     }
 
     .video-card a:focus, .video-card iframe:focus {
-        outline: 3px solid var(--accent-color);
-        outline-offset: 2px;
+      outline: 3px solid var(--accent-color);
+      outline-offset: 2px;
     }
 
+    .load-more-btn {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent-color);
+      color: var(--text-color-primary);
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-family);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: var(--shadow-dp2);
+    }
+
+    .load-more-btn:hover {
+      background-color: var(--accent-hover);
+      box-shadow: var(--shadow-dp4);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        padding: 1rem;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #video-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-main-title {
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -174,12 +226,18 @@
   </header>
 
   <div id="video-grid">
-    </div>
+    <!-- Videos will be loaded here -->
+  </div>
 
   <div id="loading-indicator" class="loading-container" style="display: none;">
     <div class="spinner"></div>
   </div>
+  
   <div id="status-message" class="status-message" style="display: none;"></div>
+  
+  <button id="load-more-btn" class="load-more-btn" style="display: none;">
+    Load More Bird Videos
+  </button>
 
   <script>
     const apiKey = 'AIzaSyDQWLylWmcVw-F48vpFJMwYNq-2o09kzF4';
@@ -187,19 +245,19 @@
     const videoGrid = document.getElementById('video-grid');
     const loadingIndicator = document.getElementById('loading-indicator');
     const statusMessage = document.getElementById('status-message');
+    const loadMoreBtn = document.getElementById('load-more-btn');
     let isLoading = false;
     let initialLoadDone = false;
 
     async function loadBirdVideos() {
       if (isLoading) return;
       isLoading = true;
-      loadingIndicator.style.display = 'flex'; // Use flex for centered spinner
+      loadingIndicator.style.display = 'flex';
       statusMessage.style.display = 'none';
+      loadMoreBtn.style.display = 'none';
 
-      // More specific search query, focusing on live feeds or calm backyard bird videos
-      // Consider terms like "live bird cam backyard", "peaceful bird watching", "garden birds sounds"
       const searchQuery = 'calm backyard bird watching live OR relaxing garden birds';
-      const maxResults = 6; // Reduced for less overwhelming initial load, more frequent smaller loads
+      const maxResults = 6;
 
       const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodeURIComponent(searchQuery)}&videoEmbeddable=true&key=${apiKey}&pageToken=${nextPageToken}`;
 
@@ -212,38 +270,38 @@
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
-          nextPageToken = data.nextPageToken || ''; // Ensure nextPageToken is updated or cleared
+          nextPageToken = data.nextPageToken || '';
           data.items.forEach(item => {
-            if (item.id && item.id.videoId) { // Ensure videoId exists
-                const videoId = item.id.videoId;
-                const videoTitle = item.snippet.title; // Get video title
+            if (item.id && item.id.videoId) {
+              const videoId = item.id.videoId;
+              const videoTitle = item.snippet.title;
 
-                const card = document.createElement('div');
-                card.className = 'video-card';
-                card.setAttribute('aria-label', `Video: ${videoTitle}`); // Accessibility
+              const card = document.createElement('div');
+              card.className = 'video-card';
+              card.setAttribute('aria-label', `Video: ${videoTitle}`);
 
-                // Using googleusercontent.com for embedding to avoid potential youtube.com restrictions in some contexts
-                // The '0' in the path might be a placeholder or specific to an internal system.
-                // If direct YouTube embedding is preferred and works, use: `https://www.youtube.com/embed/${videoId}`
-                card.innerHTML = `
-                    <iframe
-                    src="https://www.youtube.com/embed/${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
-                    title="${videoTitle}"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"></iframe>
-                    <div class="video-title" title="${videoTitle}">${videoTitle}</div>
-                `;
-                videoGrid.appendChild(card);
+              card.innerHTML = `
+                <iframe
+                  src="https://www.youtube.com/embed/${videoId}?autoplay=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1"
+                  title="${videoTitle}"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"></iframe>
+                <div class="video-title" title="${videoTitle}">${videoTitle}</div>
+              `;
+              videoGrid.appendChild(card);
             }
           });
+          
+          // Show load more button if there's a next page
+          loadMoreBtn.style.display = nextPageToken ? 'block' : 'none';
         } else {
-          if (!initialLoadDone) { // If no videos on first load
+          if (!initialLoadDone) {
             statusMessage.innerText = 'No bird videos found at the moment. Please try again later.';
             statusMessage.style.display = 'block';
-          } else if (!nextPageToken && initialLoadDone) { // No more videos to load
-             statusMessage.innerText = "You've reached the end of the bird videos!";
-             statusMessage.style.display = 'block';
+          } else if (!nextPageToken && initialLoadDone) {
+            statusMessage.innerText = "You've reached the end of the bird videos!";
+            statusMessage.style.display = 'block';
           }
         }
         initialLoadDone = true;
@@ -261,6 +319,9 @@
     // Initial load
     loadBirdVideos();
 
+    // Load more button click event
+    loadMoreBtn.addEventListener('click', loadBirdVideos);
+
     // Infinite scroll listener
     window.addEventListener('scroll', () => {
       // Load more when near the bottom, and if there's a next page token, and not currently loading
@@ -268,14 +329,6 @@
         loadBirdVideos();
       }
     });
-
-    // Optional: Add a button to manually load more if infinite scroll is not preferred
-    // const loadMoreButton = document.createElement('button');
-    // loadMoreButton.textContent = 'Load More Bird Videos';
-    // loadMoreButton.onclick = loadBirdVideos;
-    // loadMoreButton.style.cssText = 'display:block; margin: 2rem auto; padding: 1rem 1.5rem; font-size: 1.2rem; background-color: var(--accent-color); color: var(--text-color-primary); border:none; border-radius: 4px; box-shadow: var(--shadow-dp2); cursor:pointer;';
-    // document.body.appendChild(loadMoreButton);
-
   </script>
 </body>
 </html>
